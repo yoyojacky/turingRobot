@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+import time
+import json
+import urllib.request
+# turing_url = 'http://openapi.tuling123.com/openapi/api/v2'
+# key='9f1c4657b284411c8a037b2505d2521a'
+# userid = '754839196956f014'
+
+def Turing(text_input):
+    api_url = 'http://openapi.tuling123.com/openapi/api/v2'
+    req = {
+	"reqType":0,
+    "perception": {
+        "inputText": {
+            "text": text_input
+        },
+        "inputImage": {
+            "url": "imageUrl"
+        },
+    },
+    "userInfo": {
+        "apiKey": "9f1c4657b284411c8a037b2505d2521a",
+        "userId": "754839196956f014"
+    }
+}
+    req = json.dumps(req).encode('utf8')
+
+    http_post = urllib.request.Request(api_url, data=req, headers={'content-type':'application/json'})
+    response = urllib.request.urlopen(http_post)
+    response_str = response.read().decode('utf8')
+    #print(response_str)
+    response_dic = json.loads(response_str)
+    print(response_dic['results'][0]['values']['text'])
+
+if __name__=="__main__":
+    while True:
+        Turing('yoyojacky是谁啊')
+        time.sleep(1)
